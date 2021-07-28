@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Arthur Oliveira",
+      "email": "aoliveir@suzano.com.br"
+    },
+    {
+      "id": 2,
+      "name": "Maria Clara",
+      "email": "mariadaclara@hotmail.com"
+    },
+    {
+      "name": "Gabriel de Jesus Toledo",
+      "email": "gabriel.jtoledouv@gmail.com",
+      "id": 3
+    }
+  ]
+}
