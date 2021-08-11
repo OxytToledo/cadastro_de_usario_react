@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'font-awesome/css/font-awesome.min.css'
 import './App.css'
 import React from 'react'
-// Pode usar o 'BrowserRouter' também
 import { BrowserRouter } from 'react-router-dom'
 
 import Logo from '../components/template/Logo'

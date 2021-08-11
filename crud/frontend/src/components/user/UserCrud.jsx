@@ -2,32 +2,24 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Main from '../template/Main'
 
-// Olhar a Aula de 'Componente Cadastro de Usuário para fazer o desafio
-
 const headerProps = {
     icon: 'users',
     title: 'Usuários',
     subtitle: 'Cadastro de usuários: Incluir, Listar, Alterar e Excluir!'
 }
 
-// Criando a constante do que vai estar dentro do estado
-// inicial e uma constante para definir a URL do Backend
 const baseUrl = 'http://localhost:3001/users'
 const initialState = {
     user: { name: '', email: ''},
     list: []
 }
 
-
-// Criando uma Classe de Componente, onde meu componente
-// é o UserCrud
 export default class UserCrud extends Component {
 
     state = { ...initialState }
 
-    // Essa função faz uma chamada no backend pra obter a lista
-    // que está cadastrado lá.
-    // Para fazer uma requisição no backend em React podemos usar o Axios ou o Fetch
+    // Essa função faz uma chamada no backend pra obter a lista de cadastro
+    // Para fazer uma requisição no backend em React posso usar o Axios ou o Fetch
     componentWillMount() {
         axios(baseUrl).then(resp => {
             this.setState({ list: resp.data })
@@ -65,8 +57,8 @@ export default class UserCrud extends Component {
     updateField(event) {
         // Nessa constante, estou clonando o objeto User, porque vou
         // alterar o conteúdo de usuário, e não é interessante 
-        // alterar diretamente no 'State' e sim clonar o objeto e alterar esse clone,
-        // e depois setar o estado usando a função 'setState'
+        // alterar diretamente no 'State' e sim clonar o objeto e alterar esse clone
+        // depois setar o estado usando a função 'setState'
         const user = { ...this.state.user }
         // esta utilizando o colchetes, pois está pegando de um value de string
         user[event.target.name] = event.target.value
