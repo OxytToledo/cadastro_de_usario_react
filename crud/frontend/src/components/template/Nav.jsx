@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom'
 export default props =>
     <aside className="menu-area">
         <nav className="menu">
-            {/* Refatorar criando um novo componente chamado
-            NavItem e mandar ele para cá!!! */}
             <Link to="/">
                 <i className={`fa fa-${props.icon}`}></i> {props.title}
             </Link>
