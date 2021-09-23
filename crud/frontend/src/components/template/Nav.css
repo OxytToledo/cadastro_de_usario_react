@@ -1,7 +1,7 @@
 aside.menu-area {
     background-color: var(--bg-dark);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.12),
-                2px 0 15px rgba(0, 0, 0, 0.09);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.377),
+                2px 0 15px rgba(0, 0, 0, 0.253);
 }
 
 .menu a {
@@ -13,7 +13,7 @@ aside.menu-area {
 }
 
 .menu a:hover {
-    background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
+    background: linear-gradient(135deg, #fbff00 0%, #ff000067 100%);
 }
 
 @media(max-width: 768px) {

@@ -5,10 +5,10 @@ import Main from '../template/Main'
 const headerProps = {
     icon: 'users',
     title: 'Usuários',
-    subtitle: 'Cadastro de usuários: Incluir, Listar, Alterar e Excluir!'
+    subtitle: 'Cadastre, Altere ou Delete um Usuário!'
 }
 
-const baseUrl = 'http://localhost:3001/users'
+const baseUrl = 'http://localhost:3002/users'
 const initialState = {
     user: { name: '', email: ''},
     list: []
@@ -18,27 +18,26 @@ export default class UserCrud extends Component {
 
     state = { ...initialState }
 
-    // Essa função faz uma chamada no backend pra obter a lista de cadastro
-    // Para fazer uma requisição no backend em React posso usar o Axios ou o Fetch
     componentWillMount() {
         axios(baseUrl).then(resp => {
             this.setState({ list: resp.data })
         })
     }
 
-    // Função para limpar o estado
     clear() {
         this.setState({user: initialState.user})
     }
 
-    // Função para Alterar ou Salvar um cadastro novo
+    getUpdatedList(user, add = true) {
+        const list = this.state.list.filter(u => u.id !== user.id)
+        if(add) list.unshift(user)
+        return list
+    }
+
     save() {
         const user = this.state.user
         const method = user.id ? 'put' : 'post'
         const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
-        // O axios é uma função e como o 'method' vai receber uma
-        // string, estou colocando o method em colchetes
-        // esse colchetes se refere a como se fosse um ponto, tipo: axios.post ou axios.put
         axios[method] (url, user)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data)
@@ -46,27 +45,12 @@ export default class UserCrud extends Component {
             })
     }
 
-    // Função para atualizar a lista
-    getUpdatedList(user, add = true) {
-        const list = this.state.list.filter(u => u.id !== user.id)
-        if(add) list.unshift(user)
-        return list
-    }
-
-    // Função para atualizar um campo, tanto pra atualizado o nome, como o email
     updateField(event) {
-        // Nessa constante, estou clonando o objeto User, porque vou
-        // alterar o conteúdo de usuário, e não é interessante 
-        // alterar diretamente no 'State' e sim clonar o objeto e alterar esse clone
-        // depois setar o estado usando a função 'setState'
         const user = { ...this.state.user }
-        // esta utilizando o colchetes, pois está pegando de um value de string
         user[event.target.name] = event.target.value
         this.setState({ user })
     }
 
-    // Função para renderizar o Formulário, exportando para a
-    // função render no final do código
     renderForm() {
         return (
             <div className="form">
@@ -102,14 +86,8 @@ export default class UserCrud extends Component {
                 <hr />
                 <div className="row">
                     <div className="col-12 d-flex justify-content-end">
-
-                        <button className="btn btn-primary" onClick={e => this.save(e)}>
-                            Salvar
-                        </button>
-                        <button className="btn btn-secondary" onClick={e => this.clear(e)}>
-                            Cancelar
-                        </button>
-
+                        <button className="btn btn-primary" onClick={e => this.save(e)}>Salvar</button>
+                        <button className="btn btn-secondary" onClick={e => this.clear(e)}>Cancelar</button>
                     </div>
                 </div>
             </div>

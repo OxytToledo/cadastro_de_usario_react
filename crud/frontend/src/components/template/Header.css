@@ -1,9 +1,10 @@
 header.header {
-    background-color: #fff;
+    background: linear-gradient(135deg, #f7a50c 0%, #ff8800 100%);
     padding: 0px 15px;
     overflow: hidden;
     white-space: nowrap;
-    box-shadow: var(--shadow);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.377),
+                2px 0 15px rgba(0, 0, 0, 0.253);
 }
 
 header.header h1 {
