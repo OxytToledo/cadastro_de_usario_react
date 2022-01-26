@@ -7,19 +7,20 @@ const headerProps = {
     title: 'Usuários',
     subtitle: 'Cadastre, Altere ou Delete um Usuário!'
 }
+const baseUrl = 'http://localhost:4002'
 
-const baseUrl = 'http://localhost:3002/users'
 const initialState = {
-    user: { name: '', email: ''},
-    list: []
+    user: {name: '', email: ''},
+    list: [], 
+    errorMessage: ''
 }
 
 export default class UserCrud extends Component {
 
     state = { ...initialState }
 
-    componentWillMount() {
-        axios(baseUrl).then(resp => {
+    componentDidMount() {
+        axios.get(`${baseUrl}/users`).then(resp => {
             this.setState({ list: resp.data })
         })
     }
@@ -35,14 +36,16 @@ export default class UserCrud extends Component {
     }
 
     save() {
-        const user = this.state.user
-        const method = user.id ? 'put' : 'post'
-        const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
-        axios[method] (url, user)
-            .then(resp => {
-                const list = this.getUpdatedList(resp.data)
-                this.setState({user: initialState.user, list})
-            })
+        const method = this.state.user.id ? 'put' : 'post'
+        const id = this.state.user.id ? `/${this.state.user.id}` : ''
+        axios[method](`${baseUrl}/users${id}`, this.state.user).then(() => {this.clear()
+            this.componentDidMount()
+        } ).catch( function (error) {
+            console.log(`Show error notification! ${error}`)
+            this.setState({errorMessage : `${error}`})
+            console.log(this.state.errorMessage)
+            return Promise.reject(error)
+          }.bind(this))
     }
 
     updateField(event) {
@@ -59,11 +62,11 @@ export default class UserCrud extends Component {
                         <div className="form-group">
 
                             <label>Nome</label>
-                            <input type="text" className="form-control" 
+                            <input  type="text" className="form-control" 
                             name="name" 
                             value={this.state.user.name} 
                             onChange={e => this.updateField(e)} 
-                            placeholder="digite o nome..." />
+                            placeholder="digite o nome..."/>
                             <small className="form-text text-muted">Não compartilhamos seu e-mail com ninguém.</small>
 
                         </div>
@@ -99,7 +102,10 @@ export default class UserCrud extends Component {
     }
 
     remove(user) {
-        axios.delete(`${baseUrl}/${user.id}`).then(resp => {
+        const idList = this.state.list.find((userID) => { return userID.id})
+        const id = idList.id
+        console.log(id)
+        axios.delete(`${baseUrl}/users/${id}`, this.state.user).then(resp => {
             const list = this.getUpdatedList(user, false)
             this.setState({ list })
         })
